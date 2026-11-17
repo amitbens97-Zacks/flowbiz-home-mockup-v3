@@ -47,23 +47,25 @@ export const CHAPTERS = [
 // Every step adds one short note (1-4 words) to one area of the board. `out` = what the step
 // produced; it opens from the area, so there is no separate "קבצים" page.
 export const STEPS = [
-  { ch: 0, name: 'מציאת רעיון', min: 10, save: 400, note: 'ליווי קריירה', out: ['שלושת הרעיונות שנבדקו'] },
-  { ch: 0, name: 'אני והעסק', min: 20, save: 800, note: '9 שנים בגיוס', out: ['אפיון העסק (PDF)'] },
-  { ch: 1, name: 'בניית סל מוצרים', min: 20, save: 800, note: '6 מפגשים · 2,800 ₪', out: ['תעודת זהות מוצרית (PDF)'] },
-  { ch: 1, name: 'צייד הלקוחות', min: 15, save: 600, note: 'שכירים 30-45', out: ['פרופיל הלקוח (PDF)'] },
-  { ch: 1, name: 'העסק במספרים', min: 20, save: 1100, note: 'יעד 14,000 ₪', out: ['התוכנית העסקית שלך (PDF)'] },
-  { ch: 2, name: 'שם ולוגו', min: 25, save: 1300, note: 'כיוון חדש', out: ['לוגו (PNG, SVG)', 'צבעי המותג'] },
-  { ch: 2, name: 'דף המסרים', min: 15, save: 500, note: 'עבודה שרוצים לקום אליה', out: ['דף המסרים (PDF)'] },
-  { ch: 2, name: 'בניית הצעה מנצחת', min: 20, save: 700, note: 'אין כיוון? אין תשלום', out: ['ההצעה המנצחת (PDF)'] },
-  { ch: 2, name: 'דף נחיתה בקליק', min: 25, save: 1500, note: 'דף נחיתה', out: ['דף הנחיתה (קישור)'] },
-  { ch: 3, name: 'מכונת תוכן שיווקי', min: 25, save: 900, note: '3 פוסטים בשבוע', out: ['תוכנית התוכן', 'פלייר'] },
-  { ch: 3, name: 'לקוחות משלמים', min: 25, save: 500, note: 'WhatsApp וקבוצות', out: ['הודעות הפנייה', 'הפוסטים לקבוצות'] },
-  { ch: 4, name: 'חדר התרגול', min: 25, save: 800, note: 'שיחת מכירה בביטחון', out: ['סיכום התרגולים'] },
-  { ch: 4, name: 'שירות לקוחות אוטומטי', min: 20, save: 1600, note: 'בוט ב-WhatsApp', out: ['תסריט הבוט'] },
-  { ch: 5, name: 'ניהול לקוחות', min: 15, save: 600, note: 'רשימה אחת', out: ['רשימת הלקוחות'] },
-  { ch: 5, name: 'ליווי עסקי אנושי', min: 5, save: 0, note: 'פגישת מיקוד', out: ['סיכום פגישת המיקוד'] },
+  { ch: 0, name: 'מציאת רעיון', ask: 'מה הרעיון?', min: 10, save: 400, note: 'ליווי קריירה', out: ['שלושת הרעיונות שנבדקו'] },
+  { ch: 0, name: 'אני והעסק', ask: 'מה הניסיון שלך?', min: 20, save: 800, note: '9 שנים בגיוס', out: ['אפיון העסק (PDF)'] },
+  { ch: 1, name: 'בניית סל מוצרים', ask: 'מה מוכרים ובכמה?', min: 20, save: 800, note: '6 מפגשים · 2,800 ₪', out: ['תעודת זהות מוצרית (PDF)'] },
+  { ch: 1, name: 'צייד הלקוחות', ask: 'מי הלקוח?', min: 15, save: 600, note: 'שכירים 30-45', out: ['פרופיל הלקוח (PDF)'] },
+  { ch: 1, name: 'העסק במספרים', ask: 'כמה רוצים להרוויח?', min: 20, save: 1100, note: 'יעד 14,000 ₪', out: ['התוכנית העסקית שלך (PDF)'] },
+  { ch: 2, name: 'שם ולוגו', ask: 'איך קוראים לעסק?', min: 25, save: 1300, note: 'כיוון חדש', out: ['לוגו (PNG, SVG)', 'צבעי המותג'] },
+  { ch: 2, name: 'דף המסרים', ask: 'מה המסר?', min: 15, save: 500, note: 'עבודה שרוצים לקום אליה', out: ['דף המסרים (PDF)'] },
+  { ch: 2, name: 'בניית הצעה מנצחת', ask: 'למה לבחור בך?', min: 20, save: 700, note: 'אין כיוון? אין תשלום', out: ['ההצעה המנצחת (PDF)'] },
+  { ch: 2, name: 'דף נחיתה בקליק', ask: 'איפה מוצאים אותך?', min: 25, save: 1500, note: 'דף נחיתה', out: ['דף הנחיתה (קישור)'] },
+  { ch: 3, name: 'מכונת תוכן שיווקי', ask: 'מה מפרסמים?', min: 25, save: 900, note: '3 פוסטים בשבוע', out: ['תוכנית התוכן', 'פלייר'] },
+  { ch: 3, name: 'לקוחות משלמים', ask: 'איך פונים ללקוחות?', min: 25, save: 500, note: 'WhatsApp וקבוצות', out: ['הודעות הפנייה', 'הפוסטים לקבוצות'] },
+  { ch: 4, name: 'חדר התרגול', ask: 'איך סוגרים שיחה?', min: 25, save: 800, note: 'שיחת מכירה בביטחון', out: ['סיכום התרגולים'] },
+  { ch: 4, name: 'שירות לקוחות אוטומטי', ask: 'מי עונה ללקוחות?', min: 20, save: 1600, note: 'בוט ב-WhatsApp', out: ['תסריט הבוט'] },
+  { ch: 5, name: 'ניהול לקוחות', ask: 'איפה כל הלקוחות?', min: 15, save: 600, note: 'רשימה אחת', out: ['רשימת הלקוחות'] },
+  { ch: 5, name: 'ליווי עסקי אנושי', ask: 'מי מלווה אותך?', min: 5, save: 0, note: 'פגישת מיקוד', out: ['סיכום פגישת המיקוד'] },
 ];
 export const TOTAL = STEPS.length;
+// The money zones before "העסק במספרים": the question each one answers.
+export const MONEY_ASK = { in: 'כמה רוצים להרוויח?', left: 'כמה עולה העסק?' };
 export const NUMBERS_STEP = 4; // "העסק במספרים": the goal and the costs are known, "כספים" opens
 export const LEADS_STEP = 10; // "לקוחות משלמים": the leads table starts, numbers become live
 
@@ -114,6 +116,8 @@ export const SCENARIOS = {
 };
 export const DEFAULT_SCENARIO = 'run';
 export const TARGET = { revenue: 14000, leads: 12, clients: 5 };
+// "הלוח המלא": the same board, every step done and the month on target (the desired state).
+export const DESIRED = { label: 'הלוח המלא', current: 15, month: { pct: 1, revenue: 14000, costs: 2100, leads: 12, leadsWas: 9, clients: 5, waiting: 0 } };
 
 // What to do when an area is the bottleneck (it becomes "הדבר הבא").
 export const FIX = {

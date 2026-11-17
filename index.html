@@ -249,6 +249,33 @@
       .bd-ghost.is-next { border-color: #0038b8; background: rgba(233, 239, 251, .9); color: #0038b8; font-weight: 700; }
       .bd-ghost.is-next svg { animation: bzPen 1.6s ease-in-out infinite; }
       .bd-hot-tag { position: absolute; bottom: -11px; left: 50%; z-index: 2; transform: translateX(-50%); margin: 0; box-shadow: 0 2px 4px -1px rgba(60, 40, 10, .4); }
+      /* waiting notes: what is still missing, as faded notes with the question they will answer */
+      .bd-wait { position: relative; display: flex; align-items: center; gap: 6px; min-height: 38px; padding: 7px 11px 7px; border-radius: 2px 2px 3px 12px;
+        background: rgba(255, 253, 247, .5); border: 1.5px dashed rgba(90, 65, 30, .34); transform: rotate(var(--tilt, 0deg));
+        font: 600 13px/1.25 var(--font-ui); color: rgba(60, 45, 25, .76); }
+      .bd-pin-hole { position: absolute; top: -5px; left: 50%; width: 10px; height: 10px; margin-left: -5px; border-radius: 50%; border: 1.5px dashed rgba(90, 65, 30, .4); background: rgba(255, 253, 247, .5); }
+      .bd-zone.is-locked .bd-wait { opacity: .8; }
+      .bd-wait.is-next { background: #e9effb; border: 2px dashed #0038b8; color: #0038b8; box-shadow: 0 6px 14px -8px rgba(0, 56, 184, .55); }
+      .bd-wait.is-next b { font: 700 14px/1.25 var(--font-ui); }
+      .bd-wait.is-next .bd-pin-hole { border: 0; background: radial-gradient(circle at 35% 32%, #7fa2ec 0 18%, #0038b8 55%, #00257a 100%); width: 12px; height: 12px; margin-left: -6px; top: -6px; animation: pinBob 1.8s ease-in-out infinite; }
+      .bd-wait.is-next svg { animation: bzPen 1.6s ease-in-out infinite; flex-shrink: 0; }
+      @keyframes pinBob { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-4px); } }
+      .bd-zone.is-money .bd-wait { min-width: 200px; }
+      .bd-zone.has-next { background-color: rgba(233, 239, 251, .5); box-shadow: 0 0 0 2px rgba(0, 56, 184, .28); }
+      .bd-chip { white-space: nowrap; font: 700 12px/1 var(--font-ui); color: #7d7466; background: rgba(125, 116, 102, .12); border-radius: 99px; padding: 3px 7px; }
+      .bd-plate small { margin-inline-start: 10px; padding-inline-start: 10px; border-inline-start: 1.5px solid #e2d8c6; font: 700 13px/1 var(--font-ui); color: #5f6775; }
+      .bd-peek { position: absolute; top: -15px; left: 22px; z-index: 3; display: inline-flex; align-items: center; gap: 6px; height: 32px; padding: 0 12px; border-radius: 99px; cursor: pointer;
+        background: #fffdf7; color: #0038b8; font: 700 14px/1 var(--font-ui); box-shadow: 0 4px 8px -4px rgba(60, 40, 10, .5), 0 0 0 1.5px #8fb3ef; }
+      .bd-peek:hover { background: #e9effb; }
+      .bd-peek.is-on { background: #0038b8; color: #fff; box-shadow: 0 4px 8px -4px rgba(0, 37, 122, .6); }
+      .bd-frame.is-peek { background: linear-gradient(135deg, #e9cf86 0%, #d4ad57 38%, #e6c983 62%, #cfa651 100%); }
+      .bd-frame.is-peek .bd-plate { color: #8a5d00; }
+      .bd-frame.is-peek .bd-zone { cursor: default; }
+      .bd-frame.is-peek .bd-zones { animation: peekIn .35s ease-out; }
+      @keyframes peekIn { from { opacity: .3; } }
+      .jr-goal { display: inline-flex; align-items: center; gap: 6px; font: 600 14px/1.2 var(--font-ui); color: #5f6775; }
+      .jr-goal svg { color: #c99a2e; }
+      .jr-goal b { color: #2d3e66; font-weight: 700; }
       .bd-hand { font-size: 26px; line-height: 1; transform: rotate(-3deg); color: #2f5fc4; }
       .bd-side { min-width: 0; padding-inline-start: 18px; border-inline-start: 2px dashed rgba(90, 65, 30, .28); }
       .bd-note.is-new, .bd-card.is-new { animation: pinIn .6s cubic-bezier(.3, 1.4, .5, 1) backwards; }
@@ -259,7 +286,13 @@
         .bd-zone { grid-column: span 1; }
         .bd-zone.is-back { grid-column: span 2; }
         .bd-zone.is-back .bd-stack { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 9px 12px; }
-        .bd-ghost + .bd-ghost { display: none; }
+        .bd-zone:not(.has-next) .bd-wait + .bd-wait { display: none; }
+        .bd-zone.is-money .bd-wait { min-width: 0; }
+        .bd-peek { left: 12px; }
+        .bd-plate { left: auto; right: 14px; transform: rotate(-1deg); }
+        .bd-plate small { display: none; }
+        .bd-chip { display: none; }
+        .bd-chip { white-space: nowrap; }
         .bd-zone.is-money .bd-stack { flex-direction: column; align-items: stretch; }
         .bd-zone.is-money .bd-card { flex: none; }
         .bd-hand { display: none; }

@@ -12,7 +12,7 @@ import { Board } from './board.js';
 import { ExplainButton, SharkTalk } from './explain.js';
 import { DevPanel } from './devnotes.js';
 import { JourneyMap } from './journeymap.js';
-import { USER, CHAPTERS, STEPS, TOTAL, NUMBERS_STEP, LEADS_STEP, SCENARIOS, DEFAULT_SCENARIO, WEEK, FIX, AREAS, PAGES, areaOf, GENDER, g } from './data.js';
+import { USER, CHAPTERS, STEPS, TOTAL, NUMBERS_STEP, LEADS_STEP, SCENARIOS, DEFAULT_SCENARIO, DESIRED, WEEK, FIX, AREAS, PAGES, areaOf, GENDER, g } from './data.js';
 import { EMBED, IS_PHONE, readView, saveView, writeHandoff, takeHandoff, applyPhoneViewport, ViewToggle, PhonePreview } from './viewswitch.js';
 
 const params = new URLSearchParams(location.search);
@@ -87,14 +87,18 @@ function NextAction({ current, bottleneck, busy, onStart, onFix, onWeek }) {
   </section>`;
 }
 
-// The journey in one line: 15 segments, a small gap between chapters.
+// The journey in one line: 15 segments, a small gap between chapters, and how close the next rank is.
 function JourneyLine({ current, onOpen }) {
-  return html`<div class="flex items-center gap-3">
+  const ch = current < TOTAL ? STEPS[current].ch : -1;
+  const left = ch < 0 ? 0 : STEPS.filter((s, i) => s.ch === ch && i >= current).length;
+  const rank = ch < 0 ? '' : CHAPTERS[ch].rank[GENDER === 'f' ? 1 : 0];
+  return html`<div class="flex flex-wrap items-center gap-x-3 gap-y-1.5">
     <span class="shrink-0 text-[14px] font-bold text-ink">המסע</span>
     <span class="jr-seg cursor-pointer" onClick=${onOpen} role="img" aria-label=${`${Math.min(current, TOTAL)} מתוך ${TOTAL} שלבים`}>
       ${STEPS.map((s, i) => html`<i key=${i} class=${cx(i < current && 'is-done', i === current && 'is-now', STEPS[i + 1] && STEPS[i + 1].ch !== s.ch && 'ch-end')}></i>`)}
     </span>
     <span class="shrink-0 text-[14px] font-semibold tabular-nums text-muted">${Math.min(current, TOTAL)}/${TOTAL}</span>
+    ${ch >= 0 && html`<span class="jr-goal max-md:order-last max-md:basis-full"><${Icon} name="medal" size=${16} />עוד ${left === 1 ? 'שלב אחד' : `${left} שלבים`} לדרגת <b>${rank}</b></span>`}
     <button type="button" class="inline-flex h-9 shrink-0 items-center gap-1.5 rounded-xl bg-white px-3 text-[14px] font-bold text-brand-600 ring-[1.5px] ring-brand-300 hover:bg-brand-50 cursor-pointer" onClick=${onOpen}><${Icon} name="map" size=${17} />מפת המסע</button>
   </div>`;
 }
@@ -201,6 +205,7 @@ function App({ view, onViewChange }) {
   const [tab, setTab] = useState('home');
   const [sheet, setSheet] = useState(() => (new URLSearchParams(location.search).has('map') ? { type: 'journey' } : null)); // ?map = open on the journey map
   const [busy, setBusy] = useState(false);
+  const [peek, setPeek] = useState(() => params.has("peek")); // ?peek, "הלוח המלא": the desired state, over the user's own board
   const [toast, setToast] = useState(null);
   const [dev, setDev] = useState(false);
   const [unread, setUnread] = useState(true);
@@ -244,6 +249,7 @@ function App({ view, onViewChange }) {
   // The mockup skips the step itself: its note lands on the board, as on the way back from a finished step.
   const startStep = () => {
     if (busy || current >= TOTAL) return;
+    setPeek(false);
     const i = current;
     const st = STEPS[i];
     setBusy(true);
@@ -277,6 +283,7 @@ function App({ view, onViewChange }) {
     setS(fresh0(id));
     setTab('home');
     setSheet(null);
+    setPeek(false);
     setDev(false);
     notify(`מצב: ${SCENARIOS[id].label}`, 'repeat');
   };
@@ -297,7 +304,8 @@ function App({ view, onViewChange }) {
   const home = html`<div class="mx-auto flex min-h-full max-w-[1280px] flex-col gap-4 px-5 pb-24 pt-5 md:px-10 lg:pb-4">
     <${NextAction} current=${current} bottleneck=${health.bottleneck} busy=${busy} onStart=${startStep} onFix=${fixNow} onWeek=${() => notify('במערכת: "צייר לי שבוע מושלם" נפתח', 'calendar-range')} />
     <${JourneyLine} current=${current} onOpen=${() => setSheet({ type: 'journey' })} />
-    <${Board} current=${current} sc=${sc} fixed=${s.fixed} health=${health} fresh=${s.fresh} onOpen=${(id) => setSheet({ type: 'area', id })}
+    <${Board} ...${peek ? { current: DESIRED.current, sc: DESIRED, fixed: {}, health: healthOf(DESIRED, {}), fresh: null, onOpen: () => setPeek(false) } : { current, sc, fixed: s.fixed, health, fresh: s.fresh, onOpen: (id) => setSheet({ type: 'area', id }) }}
+      peek=${peek} onPeek=${() => setPeek((p) => !p)}
       side=${html`<${WeekNotes} tasks=${WEEK[s.scId]} done=${s.done} onToggle=${toggleTask} onAll=${() => goTab('week')} />`} />
   </div>`;
 
